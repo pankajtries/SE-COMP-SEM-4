@@ -104,6 +104,7 @@ int main()
     a=0;
     while(a==0)
     {
+        cout<<"Welcome to Tree";
         cout<<"1.Create \n2.Display \n3.Exit\n";
         cin>>choice;
 
