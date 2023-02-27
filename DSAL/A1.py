@@ -1,39 +1,53 @@
-class Client:
-    def __init__(self, name, telephone):
-        self.name = name
-        self.telephone = telephone
+class HashTable_Collision1:
+	#put collision element on next empty spot
+	hash_table_num = []
+	hash_table_name =[]
+	def __init__(self):
+		self.m = int(input("Enter size of Hash Table:"))
+		
+		# Initializing hash table
+		for i in range(self.m):
+			self.hash_table_num.append(0)
+			self.hash_table_name.append(0)
+		
+	def hash_function(self,x):
+		key = x % self.m
+		return key
+		
+	def initialize(self,arr,names):
+		for i in range(len(arr)):
+			key = self.hash_function(arr[i])
+			while(self.hash_table_num[key] != 0):
+				key = (key + 1) % self.m
+			self.hash_table_num[key] = arr[i]
+			self.hash_table_name[key] = names[i]
+			
+	def display(self):
+		print("\nKey - Value")
+		for i in range(self.m):
+			print(i,'-',self.hash_table_num[i],":",self.hash_table_name[i])
 
-class HashTable:
-    def __init__(self, size):
-        self.size = size
-        self.table = [[] for i in range(size)]
-
-    def hash(self, name):
-        return sum(ord(c) for c in name) % self.size
-
-    def insert(self, client):
-        hash_value = self.hash(client.name)
-        self.table[hash_value].append(client)
-
-    def lookup(self, name):
-        hash_value = self.hash(name)
-        for client in self.table[hash_value]:
-            if client.name == name:
-                return client.telephone
-        return None
 
 
-clients = [
-    Client("Alice", "555-1234"),
-    Client("Bob", "555-5678"),
-    Client("Charlie", "555-9012")
-]
+def main():
+	table = HashTable_Collision1()
+	
+	# Accepting array elements
+	n = int(input("Enter number of  persons:"))
+	s = []
+	p=[]
+	for i in range(n):
+		elmt = int(input(f"Enter element ({i}):"))
+		s.append(elmt)
+		a=(input("Enter name ({i}):"))
+		p.append(a)
+	
+	table.initialize(s,p)
+	table.display()
+	
+	
+main()
+		
 
-hash_table = HashTable(10)
 
-for client in clients:
-    hash_table.insert(client)
-
-print(hash_table.lookup("ce")) # Output: "555-1234"
-print(hash_table.lookup("Charlie")) # Output: "555-9012"
-print(hash_table.lookup("Dave")) # Output: None
+	
