@@ -1,5 +1,5 @@
 class Hashtable_Linear:
-	#put collision element on next empty spot
+    	#put collision element on next empty spot
 	hash_table_num = []
 	hash_table_name =[]
 	def __init__(self):
@@ -64,7 +64,7 @@ class Hashtable_Quadratic:
 			print(i, '-', self.hash_table_num[i], ":", self.hash_table_name[i])
 
 #Double hashing needs to be reviewed
-'''
+
 class Hashtable_DoubleHashing:
 	hash_table_num = []
 	hash_table_name = []
@@ -125,29 +125,29 @@ class Hashtable_DoubleHashing:
 		print("\nKey - Value")
 		for i in range(self.m):
 			print(i, '-', self.hash_table_num[i], ":", self.hash_table_name[i])
-'''
+
 
 def main():
-	table1 = Hashtable_Linear()
-	table2 = Hashtable_Quadratic
-	
 	# Accepting array elements
-	n = int(input("Enter number of  persons:"))
-	s = []
-	p=[]
-	for i in range(n):
-		elmt = int(input(f"Enter element ({i}):"))
-		s.append(elmt)
-		a=(input(f"Enter name ({i}):"))
-		p.append(a)
-	method=int(input("Enter 1 for Linear or 2 for Quadratic: "))
-	if method == 1:
-		table1.initialize(s,p)
-		table1.display()
-	elif method == 2:
-		table2.initialize(s,p)
-		table2.display()
+    n = int(input("Enter number of  persons:"))
+    s = []
+    p=[]
+    g=0
+    for i in range(n):
+        elmt = int(input(f"Enter element ({i}):"))
+        s.append(elmt)
+        a=(input(f"Enter name ({i}):"))
+        p.append(a)
+        
+    g=int(input("Enter 1 for Linear or 2 for Double Hashing: "))
+    if g == 1:
+        table1 = Hashtable_Linear()
+        table1.initialize(s,p)
+        table1.display()
+    elif g == 2:
+        table2 = Hashtable_DoubleHashing()
+        table2.initialize(s,p)
+        table2.display()
+
 
 main()
-		
-
