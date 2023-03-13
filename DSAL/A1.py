@@ -134,9 +134,13 @@ def main():
     p=[]
     g=0
     for i in range(n):
-        elmt = int(input(f"Enter element ({i}):"))
+        elmt = int(input(f"Enter element ({i+1}):"))
+        while(elmt<1000000000 or elmt>9999999999):
+            print("Wrong Input")
+            elmt = int(input(f"Enter element ({i+1}):"))
         s.append(elmt)
-        a=(input(f"Enter name ({i}):"))
+        
+        a=(input(f"Enter name ({i+1}):"))
         p.append(a)
         
     g=int(input("Enter 1 for Linear or 2 for Double Hashing: "))
