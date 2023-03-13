@@ -63,8 +63,7 @@ class Hashtable_Quadratic:
 		for i in range(self.m):
 			print(i, '-', self.hash_table_num[i], ":", self.hash_table_name[i])
 
-#Double hashing needs to be reviewed
-
+			
 class Hashtable_DoubleHashing:
 	hash_table_num = []
 	hash_table_name = []
@@ -104,7 +103,7 @@ class Hashtable_DoubleHashing:
 	def initialize(self, arr, names):
 		for i in range(len(arr)):
 			key = self.hash_function1(arr[i])
-			if self.hash_table_num[key] is None:
+			if self.hash_table_num[key]==0:
 				self.hash_table_num[key] = arr[i]
 				self.hash_table_name[key] = names[i]
 			else:
@@ -113,7 +112,7 @@ class Hashtable_DoubleHashing:
 				while True:
 					# calculate the next key using double hashing technique
 					next_key = (key + jump) % self.m
-					if self.hash_table_num[next_key] is None:
+					if self.hash_table_num[next_key] ==0:
 						self.hash_table_num[next_key] = arr[i]
 						self.hash_table_name[next_key] = names[i]
 						break
