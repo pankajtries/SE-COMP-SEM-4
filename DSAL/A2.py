@@ -51,62 +51,96 @@ class Set:
 
 
 def main():
-    # Create a new set
     s1 = Set()
 
-    # Prompt the user to input the elements of the first set
-    print("Enter the elements of the first set, separated by commas:")
-    input_str = input()
+    # Ask the user to input the elements of the first set
+    input_str = input("Enter the elements of the first set, separated by commas: ")
     elements = input_str.split(",")
     for element in elements:
         s1.add(int(element))
 
-    # Print the size of the set
-    print("Size of set s1:", s1.size())
+    while True:
+        print("\n---- Set Operations Menu ----")
+        print("1. Add element to the set")
+        print("2. Remove element from the set")
+        print("3. Check if an element is in the set")
+        print("4. Print the size of the set")
+        print("5. Compute the intersection with another set")
+        print("6. Compute the union with another set")
+        print("7. Compute the difference with another set")
+        print("8. Check if the set is a subset of another set")
+        print("9. Exit")
 
-    # Check if an element is in the set
-    print("Enter an element to check if it's in set s1:")
-    input_element = int(input())
-    print("s1 contains", input_element, ":", s1.contains(input_element))
+        choice = int(input("Enter your choice: "))
 
-    # Prompt the user to input an element to remove from the set
-    print("Enter an element to remove from set s1:")
-    input_element = int(input())
-    s1.remove(input_element)
+        if choice == 1:
+            # Add element to the set
+            element = int(input("Enter the element to add: "))
+            s1.add(element)
+            print("Element added to the set")
 
-    # Print the size of the set again
-    print("Size of set s1 after removing", input_element, ":", s1.size())
+        elif choice == 2:
+            # Remove element from the set
+            element = int(input("Enter the element to remove: "))
+            s1.remove(element)
+            print("Element removed from the set")
 
-    # Create another set
-    s2 = Set()
+        elif choice == 3:
+            # Check if an element is in the set
+            element = int(input("Enter the element to check: "))
+            if s1.contains(element):
+                print("Element is in the set")
+            else:
+                print("Element is not in the set")
 
-    # Prompt the user to input the elements of the second set
-    print("Enter the elements of the second set, separated by commas:")
-    input_str = input()
-    elements = input_str.split(",")
-    for element in elements:
-        s2.add(int(element))
+        elif choice == 4:
+            # Print the size of the set
+            print("Size of set:", s1.size())
 
-    # Compute the intersection of two sets
-    s3 = s1.intersection(s2)
-    print("Intersection of s1 and s2:", [item for item in s3.iterator()])
+        elif choice == 5:
+            # Compute the intersection with another set
+            s2 = Set()
+            input_str = input("Enter the elements of the second set, separated by commas: ")
+            elements = input_str.split(",")
+            for element in elements:
+                s2.add(int(element))
+            s3 = s1.intersection(s2)
+            print("Intersection of the two sets:", [item for item in s3.iterator()])
 
-    # Compute the union of two sets
-    s4 = s1.union(s2)
-    print("Union of s1 and s2:", [item for item in s4.iterator()])
+        elif choice == 6:
+            # Compute the union with another set
+            s2 = Set()
+            input_str = input("Enter the elements of the second set, separated by commas: ")
+            elements = input_str.split(",")
+            for element in elements:
+                s2.add(int(element))
+            s4 = s1.union(s2)
+            print("Union of the two sets:", [item for item in s4.iterator()])
 
-    # Compute the difference between two sets
-    s5 = s1.difference(s2)
-    print("Difference between s1 and s2:", [item for item in s5.iterator()])
+        elif choice == 7:
+            # Compute the difference with another set
+            s2 = Set()
+            input_str = input("Enter the elements of the second set, separated by commas: ")
+            elements = input_str.split(",")
+            for element in elements:
+                s2.add(int(element))
+            s5 = s1.difference(s2)
+            print("Difference of the two sets:", [item for item in s5.iterator()])
 
-    # Check if a set is a subset of another set
-    s6 = Set()
-    print("Enter the elements of a subset, separated by commas:")
-    input_str = input()
-    elements = input_str.split(",")
-    for element in elements:
-        s6.add(int(element))
-    print("s6 is a subset of s1:", s6.is_subset(s1))
+        elif choice == 8:
+            # Check if the set is a subset of another set
+            s2 = Set()
+            input_str = input("Enter the elements of the other set, separated by commas: ")
+            elements = input_str.split(",")
+            for element in elements:
+                s2.add(int(element))
+            if s1.is_subset(s2):
+                print("The set is a subset of the other set")
+            else:
+                print("The set is not a subset of the other set")
 
-if __name__ == "__main__":
-    main()
+
+        elif choice == 9:
+            print("Exiting program...")
+            quit()
+main()
