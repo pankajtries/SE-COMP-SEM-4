@@ -39,8 +39,8 @@ public:
     void display_desc(node *);
     void comparisons(node*, string);
     void updateWord(node*, string);
-    //void deleteWord(node*, string);
-    //node* min_node(node *);
+    void deleteWord(node*, string);
+    node* min_node(node *);
 };
 
 void Dictionary::insert(node* p, string key, string keyMeaning)
@@ -281,7 +281,7 @@ int main()
         case 6:
             cout<<"\nEnter the word to find comparisons: ";
             cin >> searchWord;
-        S   d1.comparisons(d1.root, searchWord);
+            d1.comparisons(d1.root, searchWord);
 
         default:
             cout<<"\nInvalid input!";
