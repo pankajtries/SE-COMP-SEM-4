@@ -1,102 +1,155 @@
 #include <iostream>
-#include <map>
+#include <string>
 #include <stack>
-
 using namespace std;
 
-class node {
-   public:
+class node
+{
+public:
     char data;
     node *left, *right;
-    node() {
-        left = NULL;
-        right = NULL;
-    }
-
-    node(char ch) {
-        data = ch;
-        left = NULL;
-        right = NULL;
+    node()
+    {
+        left = right = NULL;
     }
 };
 
-class tree {
-   private:
+class expressiontree
+{
+public:
     node *root;
-    stack<node *> nodestack;
-
-    bool isOperator(char ch) {
-        switch (ch) {
-            case '+':
-            case '-':
-            case '*':
-            case '/':
-                return 1;
-                break;
-            default:
-                return 0;
-                break;
-        }
+    expressiontree()
+    {
+        root = NULL;
     }
-
-    void insert(char ch) {
-        if (isOperator(ch)) {
-            node *newnode = new node(ch);
-            newnode->left = nodestack.top();
-            nodestack.pop();
-            newnode->right = nodestack.top();
-            nodestack.pop();
-            nodestack.push(newnode);
-        } else {
-            node *newnode = new node(ch);
-            nodestack.push(newnode);
-        }
-    }
-
-   public:
-    void input_prefix(string exp) {
-        for (int i = exp.length() - 1; i > -1; i--) {
-            insert(exp[i]);
-        }
-        root = nodestack.top();
-        nodestack.pop();
-    }
-
-    void display_postfix() {
-        node *temp = root;
-
-        stack<node *> stack1, stack2;
-
-        stack1.push(root);
-
-        while (!stack1.empty()) {
-            temp = stack1.top();
-            stack1.pop();
-            stack2.push(temp);
-            if (temp->left != NULL) {
-                stack1.push(temp->left);
-            }
-            if (temp->right != NULL) {
-                stack1.push(temp->right);
-            }
-        }
-        while (!stack2.empty()) {
-            temp = stack2.top();
-            stack2.pop();
-            cout << temp->data;
-        }
-
-        cout << endl;
-    }
+    void create(string str);
+    int priority(char ch);
+    void deleteTree(node *temp);
+    void postorderTraversal(node *root);
 };
 
-int main() {
-    tree exp_tree;
-    string e;
-    cout << "Enter Prefix Expression:";
-    cin >> e;
-    exp_tree.input_prefix(e);
-    exp_tree.display_postfix();
+int expressiontree ::priority(char ch)
+{
+    switch (ch)
+    {
+        case '+':
+        case '-':
+            return 0;
+        case '*':
+        case '/':
+            return 1;
+        case '^':
+            return 2;
+    }
+    return -1; // Default case
+}
+
+void expressiontree ::create(string str)
+{
+    stack<node *> operand_st;
+    stack<node *> operator_st;
+    for (char ch : str)
+    {
+        node *temp = new node();
+        temp->data = ch;
+        if (isalpha(ch))
+        {
+            operand_st.push(temp);
+        }
+        else
+        {
+            if (operator_st.empty())
+                operator_st.push(temp);
+            else
+            {
+                while (!operator_st.empty() && priority(ch) <= priority(operator_st.top()->data))
+                {
+                    node *operat = operator_st.top();
+                    operator_st.pop();
+                    operat->right = operand_st.top();
+                    operand_st.pop();
+                    operat->left = operand_st.top();
+                    operand_st.pop();
+                    operand_st.push(operat);
+                }
+                operator_st.push(temp);
+            }
+        }
+    }
+    while (!operator_st.empty())
+    {
+        node *operat = operator_st.top();
+        operator_st.pop();
+        operat->right = operand_st.top();
+        operand_st.pop();
+        operat->left = operand_st.top();
+        operand_st.pop();
+        operand_st.push(operat);
+    }
+    root = operand_st.top();
+}
+
+void expressiontree ::deleteTree(node *temp)
+{
+    if (temp == NULL)
+        return;
+
+    deleteTree(temp->left);
+    deleteTree(temp->right);
+    delete temp;
+}
+
+void expressiontree ::postorderTraversal(node *root)
+{
+    if (root == NULL)
+        return;
+
+    postorderTraversal(root->left);
+    postorderTraversal(root->right);
+    cout << root->data << " ";
+}
+
+int main()
+{
+    expressiontree e;
+    string str;
+    int ch;
+
+    do
+    {
+        cout << "\n Enter Choice: ";
+        cout << "\n\t1.Create expression tree \n\t2.Postorder Traversal \n\t3.Delete tree \n\t4.Exit";
+        cout << "\n Choice: ";
+        cin >> ch;
+
+        switch (ch)
+        {
+            case 1:
+                cout << "Enter Expression : ";
+                cin >> str;
+                e.create(str);
+                break;
+            case 2:
+                if (e.root == NULL)
+                {
+                    cout << "Expression tree is empty." << endl;
+                }
+                else
+                {
+                    cout << "Postorder Traversal: ";
+                    e.postorderTraversal(e.root);
+                    cout << endl;
+                }
+                break;
+            case 3:
+                e.deleteTree(e.root);
+                e.root = NULL;
+                cout << "Expression tree deleted." << endl;
+                break;
+            case 4:
+                break;
+        }
+    } while (ch != 4);
+
     return 0;
 }
-// +--a*bc/def
